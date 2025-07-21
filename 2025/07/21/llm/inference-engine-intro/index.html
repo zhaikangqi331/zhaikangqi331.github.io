@@ -9,27 +9,27 @@
   <meta name="description" content="推理引擎1、Transformer架构（1706）Attention Is All You Need Transformer之前，主流的序列传导模型都是基于RNN（循环神经网络）和CNN（卷积神经网络），最佳性能的模型同时也基于注意力的“Encoder-Decoder”架构。Transformer提出了一种简单的网络架构，只基于注意力机制，抛弃了卷积和循环，通过两项机器翻译的实验，表明其不仅精度高">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LLM推理引擎介绍">
-<meta property="og:url" content="https://kangkeizai.github.io/2025/07/21/llm/inference-engine-intro/index.html">
+<meta property="og:url" content="https://zhaikangqi331.github.io/2025/07/21/llm/inference-engine-intro/index.html">
 <meta property="og:site_name" content="kangqi&#39;s blog">
 <meta property="og:description" content="推理引擎1、Transformer架构（1706）Attention Is All You Need Transformer之前，主流的序列传导模型都是基于RNN（循环神经网络）和CNN（卷积神经网络），最佳性能的模型同时也基于注意力的“Encoder-Decoder”架构。Transformer提出了一种简单的网络架构，只基于注意力机制，抛弃了卷积和循环，通过两项机器翻译的实验，表明其不仅精度高">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%201.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%202.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%203.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%204.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%205.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%206.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%207.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%208.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%209.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%2010.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%2011.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%2012.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%2013.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%2014.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%2015.png">
-<meta property="og:image" content="https://kangkeizai.github.io/inference-engine-intro/image%2016.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%201.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%202.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%203.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%204.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%205.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%206.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%207.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%208.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%209.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%2010.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%2011.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%2012.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%2013.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%2014.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%2015.png">
+<meta property="og:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image%2016.png">
 <meta property="article:published_time" content="2025-07-21T08:41:55.000Z">
 <meta property="article:modified_time" content="2025-07-21T08:48:16.951Z">
 <meta property="article:author" content="kangqi">
@@ -37,7 +37,7 @@
 <meta property="article:tag" content="llm">
 <meta property="article:tag" content="ai-infra">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://kangkeizai.github.io/inference-engine-intro/image.png">
+<meta name="twitter:image" content="https://zhaikangqi331.github.io/inference-engine-intro/image.png">
   
     <link rel="alternate" href="/atom.xml" title="kangqi's blog" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
         <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://kangkeizai.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zhaikangqi331.github.io"></form>
       </div>
     </div>
   </div>
@@ -418,7 +418,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://kangkeizai.github.io/2025/07/21/llm/inference-engine-intro/" data-id="cmdcv5kz60000so6q961w9isn" data-title="LLM推理引擎介绍" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://zhaikangqi331.github.io/2025/07/21/llm/inference-engine-intro/" data-id="cmdcv9ycf0007b56qclkp7g09" data-title="LLM推理引擎介绍" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
