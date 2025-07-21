@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>dcgm-exporter profile指标采集错误 | kangqi&#39;s blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1、dcgm-exporter 采集profile指标，启动报错： 1Error watching fields: The third-party Profiling module returned an unrecoverable error  2、尝试在node节点上运行 dcgmi dmon -e 1002 ，报同样的错误，但是在启动dcgm-exporter之前是可以的。 3、查看节点的&amp;">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>dcgm-exporter profile指标采集错误 | kangqi's blog</title><meta name="author" content="kangqi"><meta name="copyright" content="kangqi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1、dcgm-exporter 采集profile指标，启动报错： 1Error watching fields: The third-party Profiling module returned an unrecoverable error  2、尝试在node节点上运行 dcgmi dmon -e 1002 ，报同样的错误，但是在启动dcgm-exporter之前是可以的。 3、查看节点的&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dcgm-exporter profile指标采集错误">
 <meta property="og:url" content="https://zhaikangqi331.github.io/2025/03/26/dcgm/dcgm-exporter-profile/index.html">
 <meta property="og:site_name" content="kangqi&#39;s blog">
 <meta property="og:description" content="1、dcgm-exporter 采集profile指标，启动报错： 1Error watching fields: The third-party Profiling module returned an unrecoverable error  2、尝试在node节点上运行 dcgmi dmon -e 1002 ，报同样的错误，但是在启动dcgm-exporter之前是可以的。 3、查看节点的&amp;">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhaikangqi331.github.io/img/touxiang.png">
 <meta property="article:published_time" content="2025-03-26T09:22:47.000Z">
 <meta property="article:modified_time" content="2025-03-26T11:17:11.641Z">
 <meta property="article:author" content="kangqi">
@@ -20,85 +13,155 @@
 <meta property="article:tag" content="dcgm-exporter">
 <meta property="article:tag" content="profile">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="kangqi's blog" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
-<meta name="generator" content="Hexo 7.3.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">kangqi&#39;s blog</a>
-      </h1>
+<meta name="twitter:image" content="https://zhaikangqi331.github.io/img/touxiang.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "dcgm-exporter profile指标采集错误",
+  "url": "https://zhaikangqi331.github.io/2025/03/26/dcgm/dcgm-exporter-profile/",
+  "image": "https://zhaikangqi331.github.io/img/touxiang.png",
+  "datePublished": "2025-03-26T09:22:47.000Z",
+  "dateModified": "2025-03-26T11:17:11.641Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kangqi",
+      "url": "https://zhaikangqi331.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://zhaikangqi331.github.io/2025/03/26/dcgm/dcgm-exporter-profile/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zhaikangqi331.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
 
-      <div class="outer">
-        <section id="main"><article id="post-dcgm/dcgm-exporter-profile" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/03/26/dcgm/dcgm-exporter-profile/" class="article-date">
-  <time class="dt-published" datetime="2025-03-26T09:22:47.000Z" itemprop="datePublished">2025-03-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      dcgm-exporter profile指标采集错误
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>1、dcgm-exporter 采集profile指标，启动报错：</p>
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'dcgm-exporter profile指标采集错误',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">kangqi's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">dcgm-exporter profile指标采集错误</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">dcgm-exporter profile指标采集错误</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-26T09:22:47.000Z" title="发表于 2025-03-26 17:22:47">2025-03-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-26T11:17:11.641Z" title="更新于 2025-03-26 19:17:11">2025-03-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>1、dcgm-exporter 采集profile指标，启动报错：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error watching fields: The third-party Profiling module returned an unrecoverable error</span><br></pre></td></tr></table></figure>
 
 <p>2、尝试在node节点上运行 dcgmi dmon -e 1002 ，报同样的错误，但是在启动dcgm-exporter之前是可以的。</p>
@@ -115,134 +178,4 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload &amp;&amp; systemctl restart nvidia-dcgm &amp;&amp; systemctl status nvidia-dcgm</span><br></pre></td></tr></table></figure>
 
 <p>3、修改dcgm-exporter的daomonset.yaml环境变量。开启远程访问nv-hostengine</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">HOST_IP</span></span><br><span class="line">  <span class="attr">valueFrom:</span></span><br><span class="line">    <span class="attr">fieldRef:</span></span><br><span class="line">      <span class="attr">fieldPath:</span> <span class="string">status.hostIP</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">DCGM_REMOTE_HOSTENGINE_INFO</span></span><br><span class="line">  <span class="attr">value:</span> <span class="string">&quot;$(HOST_IP):5555&quot;</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zhaikangqi331.github.io/2025/03/26/dcgm/dcgm-exporter-profile/" data-id="cmdcw76io0001036qc4vo161c" data-title="dcgm-exporter profile指标采集错误" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dcgm-exporter/" rel="tag">dcgm-exporter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dcgmi/" rel="tag">dcgmi</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/profile/" rel="tag">profile</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2025/07/21/llm/inference-engine-intro/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          LLM推理引擎介绍
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ai-infra/" rel="tag">ai-infra</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dcgm-exporter/" rel="tag">dcgm-exporter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dcgmi/" rel="tag">dcgmi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/inference-engine/" rel="tag">inference-engine</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/llm/" rel="tag">llm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/profile/" rel="tag">profile</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/ai-infra/" style="font-size: 10px;">ai-infra</a> <a href="/tags/dcgm-exporter/" style="font-size: 10px;">dcgm-exporter</a> <a href="/tags/dcgmi/" style="font-size: 10px;">dcgmi</a> <a href="/tags/inference-engine/" style="font-size: 10px;">inference-engine</a> <a href="/tags/llm/" style="font-size: 10px;">llm</a> <a href="/tags/profile/" style="font-size: 10px;">profile</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/07/">七月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">三月 2025</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/07/21/llm/inference-engine-intro/">LLM推理引擎介绍</a>
-          </li>
-        
-          <li>
-            <a href="/2025/03/26/dcgm/dcgm-exporter-profile/">dcgm-exporter profile指标采集错误</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2025 kangqi<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">HOST_IP</span></span><br><span class="line">  <span class="attr">valueFrom:</span></span><br><span class="line">    <span class="attr">fieldRef:</span></span><br><span class="line">      <span class="attr">fieldPath:</span> <span class="string">status.hostIP</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">DCGM_REMOTE_HOSTENGINE_INFO</span></span><br><span class="line">  <span class="attr">value:</span> <span class="string">&quot;$(HOST_IP):5555&quot;</span></span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zhaikangqi331.github.io">kangqi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhaikangqi331.github.io/2025/03/26/dcgm/dcgm-exporter-profile/">https://zhaikangqi331.github.io/2025/03/26/dcgm/dcgm-exporter-profile/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhaikangqi331.github.io" target="_blank">kangqi's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/dcgmi/">dcgmi</a><a class="post-meta__tags" href="/tags/dcgm-exporter/">dcgm-exporter</a><a class="post-meta__tags" href="/tags/profile/">profile</a></div><div class="post-share"><div class="social-share" data-image="/img/touxiang.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/07/21/llm/inference-engine-intro/" title="LLM推理引擎介绍"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">LLM推理引擎介绍</div></div><div class="info-2"><div class="info-item-1">推理引擎1、Transformer架构（1706）Attention Is All You Need Transformer之前，主流的序列传导模型都是基于RNN（循环神经网络）和CNN（卷积神经网络），最佳性能的模型同时也基于注意力的“Encoder-Decoder”架构。Transformer提出了一种简单的网络架构，只基于注意力机制，抛弃了卷积和循环，通过两项机器翻译的实验，表明其不仅精度高，而且训练时间大幅缩短。 Transformer架构通过证明仅凭注意力机制即可实现优于循环和卷积方法的性能，从而代表了序列建模的范式转变。它能够并行处理序列，同时在长距离依赖方面保持强大的性能，解决了先前架构的关键限制。其效率和有效性使得在更广泛的数据集上训练更大的模型成为可能，为变革自然语言处理的大语言模型奠定了基础。  图1.1 Transformer架构 Transformer保留了编码器（左半部分）和解码器（右半部分）框架，编码器由N&#x3D;6个相同层的堆叠而成，每一层包含两个子层：第一个子层为多头自注意力机制，第二个子层是一个简单的、位置相关的全连接前馈网络。在这两个子层周...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/touxiang.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kangqi</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/21/llm/inference-engine-intro/" title="LLM推理引擎介绍">LLM推理引擎介绍</a><time datetime="2025-07-21T08:41:55.000Z" title="发表于 2025-07-21 16:41:55">2025-07-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/26/dcgm/dcgm-exporter-profile/" title="dcgm-exporter profile指标采集错误">dcgm-exporter profile指标采集错误</a><time datetime="2025-03-26T09:22:47.000Z" title="发表于 2025-03-26 17:22:47">2025-03-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By kangqi</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
