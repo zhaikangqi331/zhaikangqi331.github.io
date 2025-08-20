@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>AIBrix 论文 | kangqi's blog</title><meta name="author" content="kangqi"><meta name="copyright" content="kangqi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考资料： AIBrix: Towards Scalable, Cost-Effective Large Language Model Inference Infrastructure 摘要：AIBrix是一个云原生开源框架，旨在优化并简化云环境中大规模LLM的部署。与传统云原生技术栈不同，AiBrix遵循协同设计（co-design）理念，确保基础设施的每一层都为与推理引擎（如vLLM）的无缝集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AIBrix 论文">
+<meta property="og:url" content="https://zhaikangqi331.github.io/2025/08/20/llm/aibrix-paper/index.html">
+<meta property="og:site_name" content="kangqi&#39;s blog">
+<meta property="og:description" content="参考资料： AIBrix: Towards Scalable, Cost-Effective Large Language Model Inference Infrastructure 摘要：AIBrix是一个云原生开源框架，旨在优化并简化云环境中大规模LLM的部署。与传统云原生技术栈不同，AiBrix遵循协同设计（co-design）理念，确保基础设施的每一层都为与推理引擎（如vLLM）的无缝集">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhaikangqi331.github.io/img/touxiang.png">
+<meta property="article:published_time" content="2025-08-20T03:59:01.000Z">
+<meta property="article:modified_time" content="2025-08-20T04:37:19.777Z">
+<meta property="article:author" content="kangqi">
+<meta property="article:tag" content="llm">
+<meta property="article:tag" content="inference">
+<meta property="article:tag" content="ai-infra">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhaikangqi331.github.io/img/touxiang.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AIBrix 论文",
+  "url": "https://zhaikangqi331.github.io/2025/08/20/llm/aibrix-paper/",
+  "image": "https://zhaikangqi331.github.io/img/touxiang.png",
+  "datePublished": "2025-08-20T03:59:01.000Z",
+  "dateModified": "2025-08-20T04:37:19.777Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kangqi",
+      "url": "https://zhaikangqi331.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://zhaikangqi331.github.io/2025/08/20/llm/aibrix-paper/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'AIBrix 论文',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">kangqi's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">AIBrix 论文</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">AIBrix 论文</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-08-20T03:59:01.000Z" title="发表于 2025-08-20 11:59:01">2025-08-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-08-20T04:37:19.777Z" title="更新于 2025-08-20 12:37:19">2025-08-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2504.03648">AIBrix: Towards Scalable, Cost-Effective Large Language Model Inference Infrastructure</a></p>
+<h2 id="摘要："><a href="#摘要：" class="headerlink" title="摘要："></a>摘要：</h2><p>AIBrix是一个云原生开源框架，旨在优化并简化云环境中大规模LLM的部署。与传统云原生技术栈不同，AiBrix遵循协同设计（co-design）理念，确保基础设施的每一层都为与推理引擎（如vLLM）的无缝集成而专门构建。</p>
+<p> AIBrix引入了多项关键创新，以降低推理成本并提升性能，包括：</p>
+<ul>
+<li><p><strong>高密度LoRA管理</strong>：实现动态适配器调度</p>
+</li>
+<li><p><strong>面向LLM的自动扩缩器</strong></p>
+</li>
+<li><p><strong>前缀感知与负载感知路由</strong></p>
+</li>
+</ul>
+<p>为了进一步提高效率，AIBrix集成了<strong>分布式KV缓存</strong>，支持跨节点的token重用，从而将吞吐量提高50%，延迟降低70%。AIBrix还支持统一的AI运行时，简化模型管理的同时， 保持了对不同厂商推理引擎的兼容性。</p>
+<p>对于大规模多节点推理，AIBrix采用了<strong>混合编排技术</strong>--利用Kubernetes进行粗粒度调度，用Ray进行细粒度执行，以平衡效率和灵活性。此外，<strong>基于SLO的GPU优化器</strong>可以动态调整资源分配，在异构GPU部署中最大化成本效率，同时确保服务质量。最后，AIBrix通过<strong>AI加速器诊断工具</strong>增强系统可靠性，实现自动化故障检测与模拟测试（Mock-up Testing）。</p>
+<h2 id="1、介绍："><a href="#1、介绍：" class="headerlink" title="1、介绍："></a>1、介绍：</h2><p>大语言模型已经彻底变革了人工智能应用，推动了诸如聊天机器人、自动化内容生成以及高级推荐引擎等领域的创新。尽管基于OpenAI、Anthropic等专有模型的API服务已经被广泛采用，但许多企业仍倾向于选择开源替代方案，原因包括数据安全方面的顾虑、对可定制化的需求、成本等。随着企业对托管开源模型（比如：LLaMA、DeepSeek、Qwen等）并提供生产级API服务的需求不断增长，也带来了新的挑战–即，如何在大规模部署的同时，保持推理低延迟并且经济高效。</p>
+<p>在生产环境中部署LLM，不仅需要优化过的模型，更需要一种跨越多个层面的整体系统方案：</p>
+<ul>
+<li><p><strong>开源模型</strong>：这是AI应用的基础，通过模型架构优化、多头潜在注意力、蒸馏以及适配器微调提升模型的性能与适应性。</p>
+</li>
+<li><p><strong>推理引擎</strong>：如vLLM或TensorRT-LLM等推理引擎，通过KV缓存管理、模型并行，注意力优化等技术，提升模型服务效率。</p>
+</li>
+<li><p>**系统级编排（AIBrix）：**这是一个关键但是常常被忽视的层，负责资源调度、自动扩缩容、请求路由、异构资源管理、以及多集群或者多区域的资源优化，直接决定了真实环境中的成本效率与可扩展性。</p>
+</li>
+</ul>
+<p>尽管模型和推理引擎的优化至关重要，但<strong>系统级编排才是实现真正成本效益的关键</strong>。如果缺乏良好设计的基础设施，即使最先进的模型和推理引擎，也会在实际部署中遇到各种挑战，比如：自动扩缩容、缓存感知路由、异构资源管理等。</p>
+<p>为了应对这些挑战，我们推出AIBrix–一种新型云原生框架，旨在简化并优化LLM推理基础设施，为用户提供一键部署体验，同时确保领先的性能和成本效益。主要的贡献包括：</p>
+<ul>
+<li><p><strong>高密度LoRA管理</strong>：AIBrix支持动态LoRA注册和lineage支持（在vLLM中），简化了LoRA适配器的管理、并降低了管理微调模型的成本。</p>
+</li>
+<li><p><strong>面向LLM的自动扩缩容</strong>：Aibrix支持多种场景驱动的LLM自动扩缩策略，并引入了滑动窗口指标聚合等优化手段，以减少实时指标传播的延迟。</p>
+</li>
+<li><p><strong>先进的LLM网关和路由策略</strong>：Airbix引入了面向LLM的API网关，扩展了Envoy Gateway，以优化实例路由并支持多种路由策略，区别于传统的网关“盲目分发请求”，AiBrix会分析token模式，预填充缓存可用性以及计算开销，从而在多种部署场景中提升路由效率。</p>
+</li>
+<li><p><strong>统一AI运行时与GPU流式加载器</strong>：AIBrix作为统一的运行时层，管理推理引擎Pod与控制面之间的交互，自动处理模型文件、配置推理引擎，提供实时的可观测，并且确保不同厂商引擎的兼容性。此外，AIbrix配置了GPU流式加载器，可绕过磁盘I&#x2F;O瓶颈，加速模型加载与执行。</p>
+</li>
+<li><p><strong>分布式与解耦式KV缓存池</strong>：AIBrix引入了分布式KV缓存，实现高容量、跨引擎的KV重用，同时优化网络与内存效率。关键创新包括：抗扫描的驱逐策略、减少冗余的数据传输、异步元数据更新、以及内存共享的数据交换，从而提升推理吞吐量与效率。</p>
+</li>
+<li><p><strong>混合粒度多节点推理编排</strong>：AIBrix采用混合方式进行多节点推理，将Ray用于细粒度应用编排，将Kubernetes用于粗粒度资源管理。相比vLLM等推理引擎在分布式环境中偏重并行化而忽视服务化需求的原生支持，AIBrix在分布式执行和生产级编排之间实现平衡，从而支持可扩展性、滚动升级与高效资源分配。</p>
+</li>
+<li><p><strong>成本效益和基于SLO驱动的异构服务</strong>：AIBrix引入了GPU优化器，在遵循SLO（服务水平目标）的前提下，基于工作负载特征与硬件可用性，动态选择最优GPU配置，确保以最低成本，高效利用异构GPU。</p>
+</li>
+<li><p><strong>加速器诊断与故障模拟测试工具</strong>：AIBrix引入了诊断工具，利用AI加速器的内置能力检测并诊断硬件故障。同时，故障模拟工具可模拟硬件故障，以便进行严格的容错与恢复测试。</p>
+</li>
+</ul>
+<p>AIBrix是一个云原生、开源的框架，它简化并优化了生产环境中LLM的部署，为产业和学术界的AI从业者提供灵活、可扩展且经济的服务解决方案，通过深度整合模型、引擎优化与系统级编排，AIBrix弥补了效率与灵活性之间的鸿沟，为大规模LLM推理工作负载树立了新的标准。</p>
+<h2 id="2、相关工作："><a href="#2、相关工作：" class="headerlink" title="2、相关工作："></a>2、相关工作：</h2><p>现存的云原生和机器学习服务框架为模型推理提供了基础架构，但缺乏对大规模推理的关键优化。我们将现有研究主要分为两大类：基于微服务的无服务器框架和传统机器学习模型服务框架，并指出他们在处理LLM工作负载时的局限性。</p>
+<ul>
+<li><p><strong>基于微服务的系统</strong>：像Knative和Istio等微服务框架为无状态服务管理提供了强大的解决方案，重点关注高级流量控制机制，例如限流、熔断、身份认证、授权、以及基于QPS和并发指标的自动扩缩容。然而，这些方案并非为GPU推理工作负载设计，未能解决LLM应用带来的根本挑战。与传统微服务不同，LLM推理不需要复杂的服务网格和繁复的请求路由功能，而是引入了诸如 基于token的速率限制、KV缓存感知的自动扩缩容、模型特定调度约束等新挑战。例如Knative基于熔断机制的速率限制就与LLM基于token的推理约束不兼容，而基于QPS的自动扩缩容也无法准确捕捉GPU资源使用模式（如KV缓存显存压力）。此外，Istio服务网格的开销使其不适合LLM应用，需要更轻量、针对推理的特定优化。</p>
+</li>
+<li><p><strong>传统机器学习模型服务系统</strong>：像KServer和RayServer提供了模型部署、请求处理、弹性伸缩的解决方案，使其非常适合传统深度学习推理。这些框架支持模型URI管理、动态伸缩、版本控制等功能。然而它们缺乏与LLM推理引擎的深度集成，未能解决LLM工作负载的关键挑战。LLM推理有一些特性：如高度可变的输入输出长度、大规模模型尺寸、有状态执行（如KV Cache管理），需要定制化路由，模型分发策略和GPU感知调度。虽然KServe和RayServe能够部署LLM模型，但未针对高效批处理调度、KV缓存协调或GPU利用提供专门优化，因此无法充分挖掘vLLM和TersorRT-LLM等现代推理引擎的性能潜力。</p>
+</li>
+</ul>
+<h2 id="3、AIBrix：LLM服务云原生架构"><a href="#3、AIBrix：LLM服务云原生架构" class="headerlink" title="3、AIBrix：LLM服务云原生架构"></a>3、AIBrix：LLM服务云原生架构</h2><h3 id="3-1、AIBrix架构"><a href="#3-1、AIBrix架构" class="headerlink" title="3.1、AIBrix架构"></a>3.1、AIBrix架构</h3><p>如图1所示，AIBrix包含了<strong>控制平面组件</strong>和<strong>数据平面组件</strong>。控制平面控制模型元信息的注册、自动伸缩、模型适配器的注册，并执行各种类型的策略。数据平面则提供可配置的组件，用于分发、调度、服务推理请求，实现灵活高性能的模型执行。</p>
+<p><img src="/images/llm/aibrix-paper/image1.png" alt="image.png"></p>
+<p>图1:AIBrix架构预览</p>
+<p><strong>AIBrix控制平面</strong>：AIBrix通过自动化模型管理、优化资源分配以及实现智能伸缩来简化大语言模型的部署。AIBrix目前并未为基础模型构建抽象层，它仍然依赖Kubernetes部署来完成基本的生命周期操作。LoRA Adapter控制器通过支持单个Pod部署多个LoRA，增强了灵活性、提高了可扩展性和资源利用率。RayClusterFeet控制器则负责管理由vLLM提供服务的大规模模型的多节点部署。</p>
+<p>为了衔接推理引擎和控制平面，AIBrix引入了AI Runtime，作为一个轻量级的边车，负责卸载管理任务、执行策略、并对vLLM、SGLang、以及TensorRT-LLM等系统的引擎交互进行抽象。作为补充，Cold Start Manager回跟踪模型在DRAM、本地存储以及云存储之间的分布情况，确保模型能够在最快可用的节点上加载，从而最大限度地减少启动延迟。</p>
+<p>同时，LLM专用的弹性伸缩器支持实时、毫秒级的伸缩。利用KV缓存利用率和推理感知的指标来动态优化资源分配。通过这些组件的协同作用，AIBrix形成了一个高度自适应的控制平面，实现了云基础设施和推理引擎的协同设计，提供可扩展、经济高效且高性能的大语言模型推理。</p>
+<p><strong>AIBrix数据平面</strong>：AIBrix数据平面负责处理用户请求、管理模型实例、执行推理，以及优化缓存策略，以确保高效且可扩展的LLM服务。其设计既具备应用感知能力，也具备资源感知能力，将深度推理优化和云原生编排紧密结合。</p>
+<p>在入口处，<strong>API网关</strong>（API Gateway）作为核心请求分发器，负责执行公平性策略、速率控制（TPM&#x2F;RPM），以及工作负载隔离。同时，基于KV 缓存位置、token吞吐率和GPU异构性动态优化流量分配。这种自适应路由机制确保了在多样化硬件配置下的高效推理执行。</p>
+<p>模型的执行由 <strong>服务单元</strong>（Servering Unit）提供支持，该单元由推理引擎和AI Runtime sidecar组成。AIBrix还引入了分布式KV缓存运行时，通过扩展外部缓存服务来管理推理过程中动态生成的KV缓存。KV缓存复用对于减少冗余计算、提升token生成效率至关重要。基于DRAM的分布式KV缓存运行时提供了跨节点的可扩展、低延迟的缓存访问，并支持多种高级优化策略，例如 前缀缓存扩展、P&#x2F;D解耦、远程池化以及请求迁移，进一步提升了内存受限环境下的性能，并在某些特性不兼容时发挥关键作用。例如，在 vLLM v0.7.1 中，当 DeepSeek-R1 启用 MLA 时，必须在 vLLM 中禁用前缀缓存。</p>
+<p>综上，这些组件共同构成了一个高度优化的数据平面。确保AIBrix在延迟、资源利用率与工作负载公平性之间取得平衡，从而为LLM应用提供可扩展、经济高效且高性能的推理服务。</p>
+<h3 id="3-2、AIBrix特性"><a href="#3-2、AIBrix特性" class="headerlink" title="3.2、AIBrix特性"></a>3.2、AIBrix特性</h3><p>AiBrix融合了多项创新，以简化企业级大语言模型基础设施的构建，提升其可扩展性和效率。</p>
+<h4 id="3-2-1、高密度LoRA管理"><a href="#3-2-1、高密度LoRA管理" class="headerlink" title="3.2.1、高密度LoRA管理"></a>3.2.1、高密度LoRA管理</h4><p>对低秩适配微调模型的扩展，传统上受制于固定部署方式的限制，降低了灵活性并增加了成本。传统的服务基础设施将LoRA适配器视为基础模型的静态附加组件，使得动态扩展难以实现。缺乏集成的资源管理导致资源分配效率低下，回收不可靠以及故障处理不够优化。</p>
+<p>AIBrix引入了高密度LoRA管理，如图2所示，支持动态加载与卸载适配器、智能调度以及LoRA感知路由，从而提升推理效率。通过动态注册LoRA适配器，AIBrix支持高密度部署，显著降低推理成本–对长尾场景尤其有益。借助Kubernetes的Service和EndpointSlice机制，AIBrix优化了LoRA模型的发现和调度，最大程度的减少干扰并提高资源利用率。此外，对vLLM的增强进一步强化了LoRA管理能力、降低了运维开销，并在混合工作负载下提升推理性能。</p>
+<p><img src="/images/llm/aibrix-paper/image2.png" alt="image.png"><img src="/images/llm/aibrix-paper/image3.png" alt="image.png"></p>
+<p>图2: 高密度LoRA管理                                                                    图3: 高级LLM网关和路由</p>
+<h4 id="3-2-2、高级LLM网关与路由策略"><a href="#3-2-2、高级LLM网关与路由策略" class="headerlink" title="3.2.2、高级LLM网关与路由策略"></a>3.2.2、高级LLM网关与路由策略</h4><p>传统的API网关处理LLM推理时表现不佳，因为请求的复杂性差异很大，从简单查询到需要复杂的 token管理的多轮交互。通用的路由会导致流量分配低效和延迟峰值。AIBrix通过提供一个LLM感知网关解决该问题，它扩展了Envoy Gateway（Envoy Proxy），支持实例路由、前缀缓存感知、以及基于最少GPU显存的策略，如图3所示。与传统系统盲目分发请求不同，AIBrix会分析token模式、预填充缓存可用性以及计算开销，来优化流量流向。这使得路由策略可以实现高级自定义和用户自定义。对于每个待处理请求，AIBrix的当前版本会根据以下路由策略之一确定目标实例：</p>
+<ul>
+<li><p>random（随机）：随机选择一个可用的实例。</p>
+</li>
+<li><p>throughput（吞吐量）：选择每秒token吞吐量最低的实例。</p>
+</li>
+<li><p>least-request（最少请求）：选择接收请求数量最少的实例。</p>
+</li>
+<li><p>least-kv-cache（最少kv缓存）：选择平均KV缓存使用量最低的实例。</p>
+</li>
+<li><p>least-latency（最低延迟）：选择平均请求延迟最低的实例。每个请求的延迟由排队等待延迟和服务延迟求和而来。</p>
+</li>
+<li><p>prefix-cache-aware（前缀缓存感知）：优先选择具有可复用前缀缓存且缓存命中率超过阈值的实例。</p>
+</li>
+</ul>
+<p>通过选择合适的路由策略，AIBrix能够将平均延迟降低19.2%，将P99延迟降低79%，从而在大规模环境下实现高效且公平的LLM推理。AIBrix团队还在与Google及其他贡献者合作，参与gateway-api-inference-extension项目，以便未来推广应用。</p>
+<h4 id="3-2-3、具有GPU流式加载器的统一AI运行时"><a href="#3-2-3、具有GPU流式加载器的统一AI运行时" class="headerlink" title="3.2.3、具有GPU流式加载器的统一AI运行时"></a>3.2.3、具有GPU流式加载器的统一AI运行时</h4><p>推理引擎领域发展迅速，某些引擎的性能很快就超越其他引擎。此外，一些引擎还提供特定功能，例如对特定模型的优化支持或对特性组合的专项支持。因此，用户通常希望根据性能优势或功能集来使用不同的推理引擎。</p>
+<p>然而，由于这些引擎使用的协议种类繁多，在控制平面中直接支持它们是不可扩展的。为了解决该问题，需要一个抽象层来统一和简化与这些推理引擎的交互，从而实现无缝集成和高效管理。AIBrix引入了统一AI运行时（图4），充当控制平面与推理引擎Pod之间的桥梁。该运行时负责管理模型、配置引擎、提供可观测性、并支持厂商无关的操作。它确保核心组件（如LoRA适配器控制器、自动弹性伸缩、冷启动管理器）之间的无缝通信，促进动态、云原生的资源管理。</p>
+<p><img src="/images/llm/aibrix-paper/image4.png" alt="image.png"></p>
+<p>图4: AIBrix的统一AI运行时</p>
+<h4 id="3-2-4、针对LLM性能优化的自动扩缩容"><a href="#3-2-4、针对LLM性能优化的自动扩缩容" class="headerlink" title="3.2.4、针对LLM性能优化的自动扩缩容"></a>3.2.4、针对LLM性能优化的自动扩缩容</h4><p>针对LLM推理的自动扩缩容存在独特的挑战，主要是由于DCGM指标的局限性、非线性扩缩容行为、以及传统指标如QPS和并发数的不适用性。请求的复杂性以及I&#x2F;O大小差异很大，常常在自动扩缩器做出反应之前就使系统不堪重负。此外，大模型镜像尺寸大、分发缓慢，新Pod启动经常有2～3分钟的延迟，使得快速扩缩变得低效。AIBrix通过支持可配置的LLM专用的扩缩容策略来缓解这些问题。它绕过了自定义指标路径，在自动扩缩器中直接维护滑动窗口的指标聚合，以实现实时负载报告。通过利用先进的自动扩缩算法，如Knative Pod Autoscaler（KPA）和AIBrix Pod Autoscaler (APA)，相比于原生HPA，AIBrix能够将延迟降低11.5%，令token吞吐量提升11.4%，扩缩容波动减小33%。接下来的工作将探索基于token的主动扩缩和以SLO为驱动的自动扩缩，以进一步提升效率和响应能力。</p>
+<h4 id="3-2-5、分布式KV缓存池"><a href="#3-2-5、分布式KV缓存池" class="headerlink" title="3.2.5、分布式KV缓存池"></a>3.2.5、分布式KV缓存池</h4><p>随着对大语言模型的需求增长，高效的内存管理和缓存策略对于优化推理性能和降低成本变得愈发重要。在多轮应用场景（比如聊天机器人和基于Agent的系统）中，重叠的token序列常常导致预填充阶段的重复计算，造成了资源浪费以及吞吐量受限。虽然像vLLM这样的推理引擎通常内置了KV缓存管理，但其单节点的缓存方式存在一些问题，比如：内存受限、引擎特定的存储约束、以及缺乏对KV迁移和P&#x2F;D分离的支持。</p>
+<p>为了应对这些挑战，AIBrix引入了分布式KV缓存池（图5），支持高容量，跨引擎的的KV复用，同时优化网络和内存效率。该系统采用抗扫描的驱逐策略，有选择的保留热点KV张量，减少不必要的数据传输。此外，异步的元数据更新可以最小化开销，而缓存-推理引擎紧密耦合共置则通过共享内存加速了数据传输。</p>
+<p>表1展示了我们基于Bird-SQL基准测试对分布式KV缓存的性能评估，该测试在4 × Nvidia A10 GPU 上进行。结果表明：与 vLLM 内置的前缀缓存相比，将分布式 KV 缓存与前缀缓存结合使用，峰值吞吐量仍可提升约 50%。平均 TTFT 和 P99 TTFT 分别降低约 60% 和 70%，平均 ITL 和 P99 ITL 分别降低约 30% 和 70%。这些结果展示了显著的效率提升。</p>
+<p><img src="/images/llm/aibrix-paper/image5.png" alt="image.png"></p>
+<p>图5: 分布式KV缓存池</p>
+<p><img src="/images/llm/aibrix-paper/image6.png" alt="image.png"></p>
+<p>表1:vLLM 与 AIBrix 分布式 KV 缓存在不同配置下的性能对比。其中 vLLM Default 指的是关闭分块预填充和前缀缓存的配置。</p>
+<h4 id="3-2-6、混合粒度的多节点推理编排"><a href="#3-2-6、混合粒度的多节点推理编排" class="headerlink" title="3.2.6、混合粒度的多节点推理编排"></a>3.2.6、混合粒度的多节点推理编排</h4><p>Llama-3.1-405B和DeepSeek-R1的发布，显著提升了对多节点推理的需求。然而现有的框架（如vLLM）更侧重于并行性，而忽视了服务导向的需求，例如弹性扩缩和滚动升级，因此需要额外的编排支持。</p>
+<p>尽管Kubernetes和Ray提供了编排能力，但他们各有取舍：Kubernetes提供了粗粒度的资源管理，但在细粒度调度方面较为复杂；而Ray在分布式通信上表现突出，却缺乏整体性的资源控制能力。</p>
+<p>为了解决这些局限性，AIBrix引入了一种混合方法，将Ray用于细粒度的应用编排，将Kubernetes用于粗粒度的资源管理。该方法简化了Operator的设计，确保其能够适应未来推理编排范式的变化。我们注意到，编排方式经常因为技术不足（如P&#x2F;D分离）而发生改变，因此在编排设计中保持灵活性至关重要。借鉴了字节跳动在管理Kubernetes和Ray工作负载方面的丰富经验，AIBrix采用自适应编排策略来应对工作负载通信挑战，并优化多节点推理的执行。</p>
+<p><img src="/images/llm/aibrix-paper/image7.png" alt="image.png"></p>
+<p>图6: 混合粒度多节点推理编排</p>
+<h4 id="3-2-7、经济高效与SLO驱动的异构服务"><a href="#3-2-7、经济高效与SLO驱动的异构服务" class="headerlink" title="3.2.7、经济高效与SLO驱动的异构服务"></a>3.2.7、经济高效与SLO驱动的异构服务</h4><p>最新研究表明，在特定的SLO约束下，LLM的吞吐量取决于输入&#x2F;输出token数量，以及异构GPU环境下的模型选择。此外，即便是相同的模型，在不同的GPU上的请求成本效益也会有所差异，因为不同的GPU在不同的工作负载下表现出不同的性能特征。加剧了这些挑战的是，生产环境中的GPU用户经常面临GPU供应限制，难以始终获得一致的GPU类型。</p>
+<p>           <img src="/images/llm/aibrix-paper/image8.png" alt="image.png">                                                          <img src="/images/llm/aibrix-paper/image9.png" alt="image.png"></p>
+<p>a：使用 deepseek-coder-7b 模型在 L20、V100 和 A10 GPU 上运行工作负载的吞吐量。</p>
+<p>b: 大多数请求为了成本效率更倾向于使用 L20，而输入 token 少于 200 且输出 token 少于 100 的请求则更适合使用 A10。</p>
+<p>图7：加速器类型的选择因使用的工作负载而异</p>
+<p>为了解决这些问题，AIBrix引入了GPU优化器–一个离径组件，旨在通过成本效益和SLO遵循平衡来优化异构GPU服务。如图8所示，这一架构包含三个关键组件：</p>
+<ul>
+<li><p><strong>负载监控器（Load Monitor）</strong>：跟踪部署变化，假设不同的模型部署使用不同的GPU，分析AIBrix网关的统计数据以识别主要的工作负载模式。</p>
+</li>
+<li><p><strong>GPU优化器（GPU Optimizer）</strong>：动态选择最优的GPU组合，以在经济效益与SLO之间取得平衡。</p>
+</li>
+<li><p><strong>Pod自动扩缩器（Pod AutoScaler）</strong>：从GPU优化器读取外部资源指标，以动态调整GPU分配。目前，GPU优化器支持一种基于ILP的可解决方案，需要进行预部署性能分析。AIBrix提供了用于工作负载基准测试和性能分析的工具包。</p>
+</li>
+</ul>
+<p><img src="/images/llm/aibrix-paper/image10.png" alt="image.png"></p>
+<p>图8: 经济高效以及SLO驱动的异构服务</p>
+<p>在我们的实验中，对比了异构工作负载（A10和L20）与同构配置（L20），测试数据集由ShareGPT与内部的Text2SQL混合组成。结果表明，异构配置的延迟增加了20%，但仍然满足既定的SLO要求。与同构GPU部署相比，该配置实现了10%的成本下降。</p>
+<h4 id="3-2-8、AI加速器诊断与故障模拟工具"><a href="#3-2-8、AI加速器诊断与故障模拟工具" class="headerlink" title="3.2.8、AI加速器诊断与故障模拟工具"></a>3.2.8、AI加速器诊断与故障模拟工具</h4><p>在大规模AI部署中，GPU故障和性能下降构成了重大挑战。静默错误、过热、内存泄露以及间歇性故障都可能导致模型性能下降、延迟增加，甚至引发系统崩溃。尤其是在异构环境中，诊断GPU问题更加困难，因为不同型号的GPU在不同的工作负载下会表现出不一致的行为。</p>
+<p>为了应对这些挑战，AIBrix加速器工具提供了：</p>
+<ul>
+<li><p><strong>GPU诊断与问题识别</strong>：AIBrix实现了故障检测自动化，帮助用户在其影响工作负载之前，主动识别并解决GPU相关的性能问题（图9a）。</p>
+</li>
+<li><p><strong>GPU故障模拟工具</strong>：AIBrix支持GPU故障模拟，使开发者能够测试并构建具有弹性的AI框架，从而在硬件故障发生时平稳恢复。该工具目前支持Nvidia GPU以及Ascend 910B NPU，未来计划扩展至更多的加速器（图9b）。</p>
+</li>
+</ul>
+<p><img src="/images/llm/aibrix-paper/image11.png" alt="image.png">   <img src="/images/llm/aibrix-paper/image12.png" alt="image.png"></p>
+<p> a: 故障诊断                                                                                            b：模拟文件</p>
+<p>图9: AIBrix故障诊断和模拟工具</p>
+<h2 id="4、结论："><a href="#4、结论：" class="headerlink" title="4、结论："></a>4、结论：</h2><h3 id="4-1、摘要："><a href="#4-1、摘要：" class="headerlink" title="4.1、摘要："></a>4.1、摘要：</h3><p>我们提出了AIBrix，一个旨在解决大规模LLM推理挑战的新型框架。AIBrix利用了无服务器特性，包括针对LLM的自动伸缩、冷启动优化和高密度部署，从系统层面显著降低了推理成本。除了成本效益，AIBrix还引入了分布式和解耦式的服务能力，使LLM推理在多样化工作负载下实现可扩展性和灵活性。诸如分布式KV缓存池、混合编排、异构服务优化器等创新进一步扩展了性能优化的边界，确保保持低运维成本的同时实现高效的资源利用。这些特性共同确立了AIBrix作为大规模LLM部署的高度适应性且具有成本效益的解决方案。通过深度整合推理引擎优化与云原生基础设施，AIBrix提供了一个可扩展、高性能的服务平台，在AI推理工作负载中兼顾了效率与灵活性。</p>
+<h3 id="4-2、局限性和未来工作："><a href="#4-2、局限性和未来工作：" class="headerlink" title="4.2、局限性和未来工作："></a>4.2、局限性和未来工作：</h3><p>我们的一些实验尚未充分评估路由策略和在非理想工作负载下的异构服务能力，这限制了这些特性在不同工作负载下的泛化能力。此外，由于目前基于性能分析的自动扩缩器和异构GPU调度依赖于离线模型分析，这增加了额外步骤，从而在动态工作负载中可能不够实用。为此，一个潜在解决方案是通过采用Roofline模型分析来简化分析过程，该方法可以为异构推理性能提供更加结构化和轻量级的分析手段。此外，我们计划覆盖更多真实工作负载场景下的评估，以优化路由策略、GPU分配机制和分布式调度，进一步提升AIBrix在不同LLM部署环境下的适应性。</p>
+<p>展望未来，我们将继续探索推理引擎与系统架构的深度协同设计，确保AIBrix仍然是大规模LLM推理中高度优化、可扩展且适用于生产环境的解决方案。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zhaikangqi331.github.io">kangqi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhaikangqi331.github.io/2025/08/20/llm/aibrix-paper/">https://zhaikangqi331.github.io/2025/08/20/llm/aibrix-paper/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhaikangqi331.github.io" target="_blank">kangqi's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/llm/">llm</a><a class="post-meta__tags" href="/tags/inference/">inference</a><a class="post-meta__tags" href="/tags/ai-infra/">ai-infra</a></div><div class="post-share"><div class="social-share" data-image="/img/touxiang.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/07/21/llm/inference-engine-intro/" title="LLM推理引擎介绍"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">LLM推理引擎介绍</div></div><div class="info-2"><div class="info-item-1">推理引擎1、Transformer架构（1706）Attention Is All You Need Transformer之前，主流的序列传导模型都是基于RNN（循环神经网络）和CNN（卷积神经网络），最佳性能的模型同时也基于注意力的“Encoder-Decoder”架构。Transformer提出了一种简单的网络架构，只基于注意力机制，抛弃了卷积和循环，通过两项机器翻译的实验，表明其不仅精度高，而且训练时间大幅缩短。 Transformer架构通过证明仅凭注意力机制即可实现优于循环和卷积方法的性能，从而代表了序列建模的范式转变。它能够并行处理序列，同时在长距离依赖方面保持强大的性能，解决了先前架构的关键限制。其效率和有效性使得在更广泛的数据集上训练更大的模型成为可能，为变革自然语言处理的大语言模型奠定了基础。  图1.1 Transformer架构 Transformer保留了编码器（左半部分）和解码器（右半部分）框架，编码器由N&#x3D;6个相同层的堆叠而成，每一层包含两个子层：第一个子层为多头自注意力机制，第二个子层是一个简单的、位置相关的全连接前馈网络。在这两个子层周...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/07/21/llm/inference-engine-intro/" title="LLM推理引擎介绍"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-21</div><div class="info-item-2">LLM推理引擎介绍</div></div><div class="info-2"><div class="info-item-1">推理引擎1、Transformer架构（1706）Attention Is All You Need Transformer之前，主流的序列传导模型都是基于RNN（循环神经网络）和CNN（卷积神经网络），最佳性能的模型同时也基于注意力的“Encoder-Decoder”架构。Transformer提出了一种简单的网络架构，只基于注意力机制，抛弃了卷积和循环，通过两项机器翻译的实验，表明其不仅精度高，而且训练时间大幅缩短。 Transformer架构通过证明仅凭注意力机制即可实现优于循环和卷积方法的性能，从而代表了序列建模的范式转变。它能够并行处理序列，同时在长距离依赖方面保持强大的性能，解决了先前架构的关键限制。其效率和有效性使得在更广泛的数据集上训练更大的模型成为可能，为变革自然语言处理的大语言模型奠定了基础。  图1.1 Transformer架构 Transformer保留了编码器（左半部分）和解码器（右半部分）框架，编码器由N&#x3D;6个相同层的堆叠而成，每一层包含两个子层：第一个子层为多头自注意力机制，第二个子层是一个简单的、位置相关的全连接前馈网络。在这两个子层周...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/touxiang.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kangqi</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">摘要：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">1、介绍：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">2、相关工作：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81AIBrix%EF%BC%9ALLM%E6%9C%8D%E5%8A%A1%E4%BA%91%E5%8E%9F%E7%94%9F%E6%9E%B6%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">3、AIBrix：LLM服务云原生架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E3%80%81AIBrix%E6%9E%B6%E6%9E%84"><span class="toc-number">4.1.</span> <span class="toc-text">3.1、AIBrix架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2%E3%80%81AIBrix%E7%89%B9%E6%80%A7"><span class="toc-number">4.2.</span> <span class="toc-text">3.2、AIBrix特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1%E3%80%81%E9%AB%98%E5%AF%86%E5%BA%A6LoRA%E7%AE%A1%E7%90%86"><span class="toc-number">4.2.1.</span> <span class="toc-text">3.2.1、高密度LoRA管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2%E3%80%81%E9%AB%98%E7%BA%A7LLM%E7%BD%91%E5%85%B3%E4%B8%8E%E8%B7%AF%E7%94%B1%E7%AD%96%E7%95%A5"><span class="toc-number">4.2.2.</span> <span class="toc-text">3.2.2、高级LLM网关与路由策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3%E3%80%81%E5%85%B7%E6%9C%89GPU%E6%B5%81%E5%BC%8F%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%9A%84%E7%BB%9F%E4%B8%80AI%E8%BF%90%E8%A1%8C%E6%97%B6"><span class="toc-number">4.2.3.</span> <span class="toc-text">3.2.3、具有GPU流式加载器的统一AI运行时</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-4%E3%80%81%E9%92%88%E5%AF%B9LLM%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E7%9A%84%E8%87%AA%E5%8A%A8%E6%89%A9%E7%BC%A9%E5%AE%B9"><span class="toc-number">4.2.4.</span> <span class="toc-text">3.2.4、针对LLM性能优化的自动扩缩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-5%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8FKV%E7%BC%93%E5%AD%98%E6%B1%A0"><span class="toc-number">4.2.5.</span> <span class="toc-text">3.2.5、分布式KV缓存池</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-6%E3%80%81%E6%B7%B7%E5%90%88%E7%B2%92%E5%BA%A6%E7%9A%84%E5%A4%9A%E8%8A%82%E7%82%B9%E6%8E%A8%E7%90%86%E7%BC%96%E6%8E%92"><span class="toc-number">4.2.6.</span> <span class="toc-text">3.2.6、混合粒度的多节点推理编排</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-7%E3%80%81%E7%BB%8F%E6%B5%8E%E9%AB%98%E6%95%88%E4%B8%8ESLO%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%BC%82%E6%9E%84%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.2.7.</span> <span class="toc-text">3.2.7、经济高效与SLO驱动的异构服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-8%E3%80%81AI%E5%8A%A0%E9%80%9F%E5%99%A8%E8%AF%8A%E6%96%AD%E4%B8%8E%E6%95%85%E9%9A%9C%E6%A8%A1%E6%8B%9F%E5%B7%A5%E5%85%B7"><span class="toc-number">4.2.8.</span> <span class="toc-text">3.2.8、AI加速器诊断与故障模拟工具</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E7%BB%93%E8%AE%BA%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">4、结论：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E3%80%81%E6%91%98%E8%A6%81%EF%BC%9A"><span class="toc-number">5.1.</span> <span class="toc-text">4.1、摘要：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E3%80%81%E5%B1%80%E9%99%90%E6%80%A7%E5%92%8C%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C%EF%BC%9A"><span class="toc-number">5.2.</span> <span class="toc-text">4.2、局限性和未来工作：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/20/llm/aibrix-paper/" title="AIBrix 论文">AIBrix 论文</a><time datetime="2025-08-20T03:59:01.000Z" title="发表于 2025-08-20 11:59:01">2025-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/21/llm/inference-engine-intro/" title="LLM推理引擎介绍">LLM推理引擎介绍</a><time datetime="2025-07-21T08:41:55.000Z" title="发表于 2025-07-21 16:41:55">2025-07-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/26/dcgm/dcgm-exporter-profile/" title="dcgm-exporter profile指标采集错误">dcgm-exporter profile指标采集错误</a><time datetime="2025-03-26T09:22:47.000Z" title="发表于 2025-03-26 17:22:47">2025-03-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By kangqi</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
